@@ -1,8 +1,58 @@
-function Canvas() {
-	return this.Canvas();
+function Canvas(width, height) {
+	this.canvas;
+	
+	return this.Canvas(width, height);
 }
 
 Canvas.prototype.Canvas = function (width, height) {
+	if (!width && !height) {
+		this.onResize();
+	}
+	
+	this.setSize(width, height);	
+	this.createCanvas();
+	this.setCanvas();
+};
+
+Canvas.prototype.onResize = function () {
+	var self = this;
+	
+	if (window.addEventListener) {
+		window.addEventListener('resize', function () {
+			self.setSize();
+			self.setCanvas();
+			self.draw(self.drawCallback);
+		});
+	}
+};
+
+Canvas.prototype.draw = function (callback) {
+	this.drawCallback = callback;
+	callback(this.getProperties());
+};
+
+Canvas.prototype.createCanvas = function () {
+	//create the element canvas
+	this.canvas = document.createElement('canvas');
+
+	//set context
+	this.context = this.canvas.getContext('2d')
+
+	//apend canvas in the body of page
+	document.body.appendChild(this.canvas);
+	
+	//apply margin and paddign 0 at the page
+	document.body.style.margin = 0;
+	document.body.style.padding = 0;	
+};
+
+Canvas.prototype.setCanvas = function () {
+	//set the width and weight
+	this.canvas.width = this.canvas.style.width = this.WIDTH;
+	this.canvas.height = this.canvas.style.height = this.HEIGHT;	
+};
+
+Canvas.prototype.setSize = function (width, height) {
 	if (width) {
 		this.WIDTH = width;			
 	} else {
@@ -12,25 +62,12 @@ Canvas.prototype.Canvas = function (width, height) {
 		this.HEIGHT = height;	
 	} else {
 		this.HEIGHT = window.innerHeight;
-	}
-	
-	return this.getCanvas();
+	}	
 };
-
-Canvas.prototype.getCanvas = function () {
-	var canvas = document.createElement('canvas');
-	canvas.width = canvas.style.width = this.WIDTH;
-	canvas.height = canvas.style.height = this.HEIGHT;
-	document.body.appendChild(canvas);
-	document.body.style.margin = 0;
-	document.body.style.padding = 0;
-	
-	return this.getProperties(canvas.getContext('2d'));
-}
 
 Canvas.prototype.getProperties = function (context) {
 	return {
-		context : context,
+		context : this.context,
 		width : this.WIDTH,
 		height : this.HEIGHT,
 		c_width : this.WIDTH / 2,
