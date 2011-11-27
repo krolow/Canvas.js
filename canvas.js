@@ -12,6 +12,8 @@ Canvas.prototype.Canvas = function (width, height) {
 	this.setSize(width, height);	
 	this.createCanvas();
 	this.setCanvas();
+	
+	return this;
 };
 
 Canvas.prototype.onResize = function () {
@@ -21,14 +23,8 @@ Canvas.prototype.onResize = function () {
 		window.addEventListener('resize', function () {
 			self.setSize();
 			self.setCanvas();
-			self.draw(self.drawCallback);
 		});
 	}
-};
-
-Canvas.prototype.draw = function (callback) {
-	this.drawCallback = callback;
-	callback(this.getProperties());
 };
 
 Canvas.prototype.createCanvas = function () {
@@ -67,6 +63,7 @@ Canvas.prototype.setSize = function (width, height) {
 
 Canvas.prototype.getProperties = function (context) {
 	return {
+		canvas : this.canvas,
 		context : this.context,
 		width : this.WIDTH,
 		height : this.HEIGHT,
