@@ -6,7 +6,7 @@ Canvas it's a simple class that I use as my startup for personal projects in Can
 
 To use just instance the Canvas class, and use the draw method to pass what you want.
 
-
+```javascript
 	window.onload = function () {
 		var canvas = new Canvas();
 	
@@ -16,6 +16,7 @@ To use just instance the Canvas class, and use the draw method to pass what you 
 			console.log(canvas.context, canvas.width, canvas.height, canvas.c_width, canvas.c_height);	
 		});
 	};
+```
 
 The properties of canvas parameter in draw callback are:
 
